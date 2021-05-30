@@ -1,0 +1,49 @@
+NoSQL Data Structure: USER has many ROLES
+{
+    "first_name": "Fred",
+    "last_name": "Bob",
+    "Roles": [
+        {
+            "Role": "Manager"
+        },
+	{
+            "Role": "Employee"
+        }
+    ]
+}
+NoSQL Data Structure: USER has one BIRTHDATE
+{
+    "first_name": "Fred",
+    "last_name": "Bob",
+    "birthday": "30FEB1999"
+}
+NoSQL Data Structure: USER can have many Dependents
+{
+    "first_name": "Fred",
+    "last_name": "Bob",
+    "dependents": [
+        {
+            "first_name": "Joy",
+            "last_name": "Bob",
+        },
+	{
+            "first_name": "Tommy",
+            "last_name": "Bob",
+        }
+    ]
+},
+{
+    "first_name": "Tommy",
+    "last_name": "Bob",
+    "dependents": []
+},
+{
+    "first_name": "Sue",
+    "last_name": "Anne",
+    "dependents": [
+        {
+            "first_name": "Joy",
+            "last_name": "Bob",
+        }
+    ]
+},
