@@ -1,0 +1,43 @@
+One Publisher can have many books
+One Book has 1 author
+One Author can be associated with many books
+{
+	"publisher_name": "Dynamo",
+	"publisher_code": "P0235",
+	"publisher_address": "1111 Redwood Lane",
+	"books": [
+		{
+			"book_isbn": "B052",
+			"book_name": "Dragons and where to find them",
+			"book_price": "25.20",
+			"author": {
+				"author_first_name": "Fred",
+				"author_last_name": "Fredrick",
+				"author_phone": "4205367777"
+				"author_email": "fred.fredrick@yamoo.com"
+			}
+		},
+		{
+			"book_isbn": "B053",
+			"book_name": "What to do when your dragon is hungry",
+			"book_price": "23.20",
+			"author": {
+				"author_first_name": "Fred",
+				"author_last_name": "Fredrick",
+				"author_phone": "4205367777"
+				"author_email": "fred.fredrick@yamoo.com"
+			}
+		},
+		{
+			"book_isbn": "B153",
+			"book_name": "Everything to know about lamas",
+			"book_price": "5.20",
+			"author": {
+				"author_first_name": "Arnold",
+				"author_last_name": "whitager",
+				"author_phone": "4205468855"
+				"author_email": "lamatamer@yamoo.com"
+			}
+		},
+	]
+}
