@@ -1,3 +1,7 @@
+# Assignee: Skyler Millburn
+# Assignment: 5.3
+# Description: query student documents from collection
+
 from pymongo import MongoClient
 url = "mongodb+srv://admin:admin@cluster0.gs5ga.mongodb.net/pytech"
 
