@@ -25,15 +25,15 @@ martha = {
 url = "mongodb+srv://admin:admin@cluster0.gs5ga.mongodb.net/pytech"
 
 client = MongoClient(url)
-db = client.pytech
-col = db.students
+pytech = client.pytech
+students = pytech.students
 
 print("-- Insert Statements --")
-id1 = col.insert_one(fred)
+id1 = students.insert_one(fred)
 print(f"Inserted Student Record Fred Bob into the students collection with document_id {id1.inserted_id}")
 
-id2 = col.insert_one(bert)
+id2 = students.insert_one(bert)
 print(f"Inserted Student Record Bert Buffalo into the students collection with document_id {id2.inserted_id}")
 
-id3 = col.insert_one(martha)
+id3 = students.insert_one(martha)
 print(f"Inserted Student Record Martha Ruha into the students collection with document_id {id3.inserted_id}")
