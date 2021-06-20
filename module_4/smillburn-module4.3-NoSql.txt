@@ -1,0 +1,44 @@
+one STUDENT has many ENROLLMENT(s)
+one ENROLLMENT has many COURSE(s)
+one STUDENT ENROLL(s) in many COURSE(s)
+{
+	"student_id": 0001
+	"first_name": "Fred",
+    	"last_name": "Bob",
+    	"Enrollments": [
+		{
+            		"term": "Fall",
+            		"gpa": 3.14,
+			"start_date": 20210903,
+			"end_date": 20211203,
+			"Course": [
+				{
+					"course_id: "CSD-310",
+					"description": "SQL Development",
+					"instructor": "Sue Sampson",
+					"Grade": 85
+				},
+				{
+					"course_id: "CSD-320",
+					"description": "Intro to Java",
+					"instructor": "Darrel Payne",
+					"Grade": 90
+				},
+			]
+        	},
+		{
+            		"term": "Summer",
+            		"gpa": 3.55,
+			"start_date": 20210603,
+			"end_date": 20210903,
+			"Course": [
+				{
+					"course_id: "CSD-300",
+					"description": "Intro to Software Development",
+					"instructor": "Sue Sampson",
+					"Grade": 87
+				},
+			]
+        	}
+    	]
+}
