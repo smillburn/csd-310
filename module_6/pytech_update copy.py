@@ -13,9 +13,14 @@ print("-- DISPLAYING STUDENTS DOCUMENTS FROM find() QUERY --")
 for x in students.find():
     print(f"Student ID: {x['student_id']}\nFirst Name: {x['first_name']}\nLast Name: {x['last_name']}\n")
 
-result = students.update_one({"student_id": 1007}, {"$set": {"last_name": "Pluto"}})
+students.insert_one({"student_id": 1010, "first_name": "John", "last_name": "Doe"})
 
-
-print("-- DISPLAYING STUDENT DOCUMENTS 1007 --")
-doc = students.find_one({"student_id": 1007})
+print("-- DISPLAYING STUDENT TEST DOCUMENT --")
+doc = students.find_one({"student_id": 1010})
 print(f"Student ID: {doc['student_id']}\nFirst Name: {doc['first_name']}\nLast Name: {doc['last_name']}\n")
+
+students.delete_one({"student_id": 1010})
+
+print("-- DISPLAYING STUDENTS DOCUMENTS FROM find() QUERY --")
+for x in students.find():
+    print(f"Student ID: {x['student_id']}\nFirst Name: {x['first_name']}\nLast Name: {x['last_name']}\n")
