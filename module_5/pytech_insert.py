@@ -6,18 +6,18 @@ from pymongo import MongoClient
 
 
 fred = {
-	"student_id": "1007",
+	"student_id": 1007,
 	"first_name": "Fred",
     "last_name": "Bob",
 }
 bert = {
-	"student_id": "1008",
+	"student_id": 1008,
 	"first_name": "Bert",
     "last_name": "Buffalo",
     
 }
 martha = {
-	"student_id": "1009",
+	"student_id": 1009,
 	"first_name": "Martha",
     "last_name": "Ruha",	
 }
