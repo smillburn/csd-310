@@ -59,16 +59,14 @@ try:
     
     
     """Executemany values into employees table"""
-    now = datetime.now()
-    formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
     employeeSQL = "INSERT INTO employees(f_name, l_name, date_of_birth, title, supervisor_id) VALUES (%s, %s, %s, %s, %s)"
     employeeRecord = [
-        ('Luke', 'Johnson', formatted_date, 'Boss', 1),
-        ('Bryan', 'Smith', formatted_date, 'Associate', 2),
-        ('John', 'Jones', formatted_date, 'Manager', 3),
-        ('Percy', 'Smith', formatted_date, 'Marketing', 4),
-        ('Ash', 'Williams', formatted_date, 'Human Resources', 5),
-        ('Terrance', 'Fletcher', formatted_date, 'Co-Boss', 6),
+        ('Luke', 'Johnson', datetime(1990, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Boss', 1),
+        ('Bryan', 'Smith', datetime(1991, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Associate', 2),
+        ('John', 'Jones', datetime(1992, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Manager', 3),
+        ('Percy', 'Smith', datetime(1993, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Marketing', 4),
+        ('Ash', 'Williams', datetime(1994, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Human Resources', 5),
+        ('Terrance', 'Fletcher', datetime(1995, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'), 'Co-Boss', 6),
     ]
     
     cursor.executemany(employeeSQL, employeeRecord)
@@ -105,63 +103,16 @@ try:
         print(treks)
         print("\n")
     
-    
-    """Executemany values into orders table"""
-    orderSQL = "INSERT INTO orders(customer_id, gear_id, quantity, order_cost, order_date) VALUES (%s, %s, %s, %s, %s)"
-    orderRecord = [
-        (1, 1, 10, 50, formatted_date),
-        (2, 2, 20, 100, formatted_date),
-        (3, 3, 3, 10, formatted_date),
-        (4, 4, 7, 110, formatted_date),
-        (5, 5, 11, 100, formatted_date),
-        (6, 6, 14, 200, formatted_date)
-    ]
-    
-    cursor.executemany(orderSQL, orderRecord)
-    
-    """Display all from orders table"""
-    cursor.execute("SELECT * FROM orders")
-    order = cursor.fetchall()
-    
-    print("\n\n -- DISPLAYING ENTRIES FROM ORDERS TABLE -- \n\n")
-    for orders in order:
-        print(orders)
-        print("\n")
-    
-    
-    
-    """Executemany values into inventory table"""
-    inventorySQL = "INSERT INTO inventory(gear_id, gear_name, for_rent, purchase_date) VALUES (%s, %s, %s, %s)"
-    inventoryRecord = [
-        (1, 'Boots', 1, formatted_date),
-        (2, 'Lantern', 1, formatted_date),
-        (3, 'Tent', 1, formatted_date),
-        (4, 'Ligher', 1, formatted_date),
-        (5, 'Hydro Flasks', 1, formatted_date),
-        (6, 'Backpack', 1, formatted_date)
-    ]
-    
-    cursor.executemany(inventorySQL, inventoryRecord)
-    
-    """Display all from orders table"""
-    cursor.execute("SELECT * FROM inventory")
-    inventory = cursor.fetchall()
-    
-    print("\n\n -- DISPLAYING ENTRIES FROM INVENTORY TABLE -- \n\n")
-    for stock in inventory:
-        print(stock)
-        print("\n")
-    
-    
+
     """Executemany values into trek_history table"""
-    trekHistorySQL = "INSERT INTO trek_history(customer_id, trek_name, trip_cost, trip_date) VALUES (%s, %s, %s, %s)"
+    trekHistorySQL = "INSERT INTO trek_history(customer_id, trek_id, trip_cost, trip_date) VALUES (%s, %s, %s, %s)"
     trekHistoryRecord = [
-        (1, 'Trek 1', 500, formatted_date),
-        (2, 'Trek 2', 300, formatted_date),
-        (3, 'Trek 3', 200, formatted_date),
-        (4, 'Trek 4', 175, formatted_date),
-        (5, 'Trek 5', 1000, formatted_date),
-        (6, 'Trek 6', 600, formatted_date)
+        (1, 1, 500, datetime(2020, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (2, 2, 300, datetime(2020, 2, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (3, 3, 200, datetime(2020, 3, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (4, 4, 175, datetime(2020, 4, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (5, 1, 1000, datetime(2020, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (6, 2, 600, datetime(2020, 6, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'))
     ]
     
     cursor.executemany(trekHistorySQL, trekHistoryRecord)
@@ -176,6 +127,49 @@ try:
         print("\n")
     
     
+    """Executemany values into inventory table"""
+    inventorySQL = "INSERT INTO inventory(gear_id, gear_name, for_rent, purchase_date) VALUES (%s, %s, %s, %s)"
+    inventoryRecord = [
+        (1, 'Boots', 1, datetime(2013, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (2, 'Lantern', 1, datetime(2018, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (3, 'Tent', 1, datetime(2012, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (4, 'Ligher', 1, datetime(2020, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (5, 'Hydro Flasks', 1, datetime(2015, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (6, 'Backpack', 1, datetime(2016, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'))
+    ]
+    
+    cursor.executemany(inventorySQL, inventoryRecord)
+    
+    """Display all from inventory table"""
+    cursor.execute("SELECT * FROM inventory")
+    inventory = cursor.fetchall()
+
+    """Executemany values into orders table"""
+    orderSQL = "INSERT INTO orders(customer_id, trek_history_id, gear_id, quantity, order_cost, order_date) VALUES (%s, %s, %s, %s, %s, %s)"
+    orderRecord = [
+        (1, 1, 1, 10, 50, datetime(2020, 1, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (2, 2, 2, 20, 100, datetime(2020, 2, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (3, 3, 3, 3, 10, datetime(2020, 3, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (4, 4, 4, 7, 110, datetime(2020, 4, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (5, 5, 5, 11, 100, datetime(2020, 5, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S')),
+        (6, 6, 6, 14, 200, datetime(2020, 6, 10, 0, 0, 0).strftime('%Y-%m-%d %H:%M:%S'))
+    ]
+    
+    cursor.executemany(orderSQL, orderRecord)
+    
+    """Display all from orders table"""
+    cursor.execute("SELECT * FROM orders")
+    order = cursor.fetchall()
+    
+    print("\n\n -- DISPLAYING ENTRIES FROM ORDERS TABLE -- \n\n")
+    for orders in order:
+        print(orders)
+        print("\n")
+    
+    print("\n\n -- DISPLAYING ENTRIES FROM INVENTORY TABLE -- \n\n")
+    for stock in inventory:
+        print(stock)
+        print("\n")
     
     """Executemany values into employee_trek_history table"""
     empTrekSQL = "INSERT INTO employee_trek_history(trek_history_id, employee_id, supervisor_id) VALUES (%s, %s, %s)"
