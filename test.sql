@@ -61,18 +61,31 @@ CREATE TABLE trek (
 CREATE TABLE orders (
     order_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     trek_history_id INT NOT NULL, FOREIGN KEY(trek_history_id) REFERENCES trek_history(trek_history_id),
-    customer_id INT NOT NULL, FOREIGN KEY(customer_id) REFERENCES customers(customer_id), 
+    order_date DATETIME NOT NULL);
+CREATE TABLE customer_rentals (
+    rental_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL, FOREIGN KEY(order_id) REFERENCES orders(order_id),
     gear_id INT NOT NULL, FOREIGN KEY(gear_id) REFERENCES inventory(gear_id),
-    quantity INT NOT NULL, 
-    order_cost DOUBLE NOT NULL, 
-    order_date DATETIME NOT NULL); 
+    rental_cost DOUBLE NOT NULL); 
+CREATE TABLE customer_purchases (
+    purchase_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL, FOREIGN KEY(order_id) REFERENCES orders(order_id),
+    gear_id INT NOT NULL, FOREIGN KEY(gear_id) REFERENCES inventory(gear_id),
+    purchase_cost DOUBLE NOT NULL); 
+CREATE TABLE order_details ( 
+    order_details INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL, FOREIGN KEY(order_id) REFERENCES orders(order_id),
+    gear_id INT NOT NULL, FOREIGN KEY(gear_id) REFERENCES inventory(gear_id),
+    purchase_cost DOUBLE NOT NULL,
+    rental_cost DOUBLE NOT NULL
+);
 CREATE TABLE employees (
     employee_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
     f_name VARCHAR(75) NOT NULL, 
     l_name VARCHAR(75) NOT NULL, 
     date_of_birth DATETIME NOT NULL, 
     title VARCHAR(75) NOT NULL, 
-    supervisor_id INT NOT NULL UNIQUE); 
+    supervisor_id INT); 
 CREATE TABLE inventory (
     gear_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  
     gear_name VARCHAR(75) NOT NULL, 
@@ -81,11 +94,64 @@ CREATE TABLE inventory (
 CREATE TABLE employee_trek_history (
     trek_history_id INT NOT NULL, FOREIGN KEY(trek_history_id) REFERENCES trek_history(trek_history_id), 
     employee_id INT NOT NULL, FOREIGN KEY(employee_id) REFERENCES employees(employee_id), 
-    supervisor_id INT NOT NULL, FOREIGN KEY(supervisor_id) REFERENCES employees(supervisor_id)); 
+    supervisor_id INT NOT NULL, FOREIGN KEY(supervisor_id) REFERENCES employees(employee_id)); 
 
 
 SELECT trek_history.customer_id, customers.f_name, customers.l_name, COUNT(trek_history.trek_history_id) AS Total_Treks, SUM(trek_history.trip_cost) AS total_trek_cost FROM trek_history INNER JOIN customers ON customers.customer_id = trek_history.customer_id GROUP BY customer_id;
 SELECT gear_id, gear_name, purchase_date FROM inventory;
 SELECT gear_id, gear_name, purchase_date FROM inventory WHERE YEAR (purchase_date) < 2016;
-SELECT trek_history.trip_date, trek.trek_id, trek.trek_name, trek.country, COUNT(trek_history.customer_id) AS Customers_On_Trip FROM trek_history INNER JOIN trek ON trek.trek_id = trek_history.trek_id GROUP BY trek_id, trip_date;
+SELECT trek_history.trip_date, trek.trek_id, trek.trek_name, trek.country, COUNT(trek_history.customer_id) AS Customers_On_Trip FROM trek_history INNER JOIN trek ON trek.trek_id = trek_history.trek_id GROUP BY trip_date, trek_id ORDER BY trip_date ASC;
 SELECT inventory.gear_name, orders.gear_id, SUM(orders.quantity) AS Items_Ordered FROM orders INNER JOIN inventory ON orders.gear_id = inventory.gear_id GROUP BY gear_id;
+DROP VIEW IF EXISTS customer_spending;
+DROP VIEW IF EXISTS trek_rental_purchases;
+CREATE VIEW customer_spending AS;
+SELECT
+    customers.customer_id, 
+    customers.f_name, 
+    customers.l_name, 
+    th.number_of_treks,
+    th.total_trip_cost,
+    COUNT(CASE WHEN order_details.purchase_cost > 0 THEN 1 END) AS total_purchases,
+    IFNULL(SUM(order_details.purchase_cost), 0) AS total_purchase_cost,
+    COUNT(CASE WHEN order_details.rental_cost > 0 THEN 1 END) AS total_rentals,
+    IFNULL(SUM(order_details.rental_cost), 0) AS total_rental_cost,
+    (IFNULL(SUM(order_details.purchase_cost), 0) + IFNULL(SUM(order_details.rental_cost), 0) + th.total_trip_cost) as total_cost
+    FROM (
+        SELECT 
+            trip_date, 
+            trek_id, 
+            customer_id,
+            trek_history_id, 
+            COUNT(trip_date) as number_of_treks,
+            SUM(trip_cost) as total_trip_cost
+        FROM trek_history 
+        GROUP BY customer_id) 
+    AS th
+    INNER JOIN customers 
+    ON customers.customer_id = th.customer_id
+    LEFT JOIN orders
+    ON th.trek_history_id = orders.trek_history_id
+    LEFT JOIN order_details
+    ON orders.order_id = order_details.order_id
+    GROUP BY customers.customer_id
+    ORDER BY total_cost DESC;
+CREATE VIEW trek_rental_purchases AS
+SELECT 
+    trek_history.trip_date,
+    trek_history.trek_id,
+    trek.trek_name,
+    COUNT(CASE WHEN order_details.purchase_cost > 0 THEN 1 END) AS total_purchases,
+    IFNULL(SUM(order_details.purchase_cost), 0) AS total_purchase_cost,
+    COUNT(CASE WHEN order_details.rental_cost > 0 THEN 1 END) AS total_rentals,
+    IFNULL(SUM(order_details.rental_cost), 0) AS total_rental_cost,
+    (IFNULL(SUM(order_details.purchase_cost), 0) + IFNULL(SUM(order_details.rental_cost), 0)) as total_cost
+    FROM trek_history
+    LEFT JOIN orders
+    ON trek_history.trek_history_id = orders.trek_history_id
+    LEFT JOIn order_details
+    ON orders.order_id = order_details.order_id
+    INNER JOIN trek
+    ON trek_history.trek_id = trek.trek_id
+    GROUP BY trip_date, trek_id
+    ORDER BY trek_history.trip_date ASC;
+
