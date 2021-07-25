@@ -104,7 +104,7 @@ SELECT trek_history.trip_date, trek.trek_id, trek.trek_name, trek.country, COUNT
 SELECT inventory.gear_name, orders.gear_id, SUM(orders.quantity) AS Items_Ordered FROM orders INNER JOIN inventory ON orders.gear_id = inventory.gear_id GROUP BY gear_id;
 DROP VIEW IF EXISTS customer_spending;
 DROP VIEW IF EXISTS trek_rental_purchases;
-CREATE VIEW customer_spending AS;
+CREATE VIEW customer_spending AS
 SELECT
     customers.customer_id, 
     customers.f_name, 
